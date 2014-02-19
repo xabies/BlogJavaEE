@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditPostTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditPostLabel_postId}" for="postId" />
+                    <h:inputText id="postId" value="#{postController.selected.postId}" title="#{bundle.EditPostTitle_postId}" required="true" requiredMessage="#{bundle.EditPostRequiredMessage_postId}"/>
+                    <h:outputLabel value="#{bundle.EditPostLabel_titulo}" for="titulo" />
+                    <h:inputText id="titulo" value="#{postController.selected.titulo}" title="#{bundle.EditPostTitle_titulo}" required="true" requiredMessage="#{bundle.EditPostRequiredMessage_titulo}"/>
+                    <h:outputLabel value="#{bundle.EditPostLabel_imagen}" for="imagen" />
+                    <h:inputText id="imagen" value="#{postController.selected.imagen}" title="#{bundle.EditPostTitle_imagen}" />
+                    <h:outputLabel value="#{bundle.EditPostLabel_contenido}" for="contenido" />
+                    <h:inputText id="contenido" value="#{postController.selected.contenido}" title="#{bundle.EditPostTitle_contenido}" />
+                    <h:outputLabel value="#{bundle.EditPostLabel_fecha}" for="fecha" />
+                    <h:inputText id="fecha" value="#{postController.selected.fecha}" title="#{bundle.EditPostTitle_fecha}" required="true" requiredMessage="#{bundle.EditPostRequiredMessage_fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditPostLabel_categoriaId}" for="categoriaId" />
+                    <h:selectOneMenu id="categoriaId" value="#{postController.selected.categoriaId}" title="#{bundle.EditPostTitle_categoriaId}" >
+                        <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{postController.update}" value="#{bundle.EditPostSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditPostViewLink}"/>
+                <br />
+                <h:commandLink action="#{postController.prepareList}" value="#{bundle.EditPostShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditPostIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

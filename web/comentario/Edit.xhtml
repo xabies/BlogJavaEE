@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditComentarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditComentarioLabel_comentarioId}" for="comentarioId" />
+                    <h:inputText id="comentarioId" value="#{comentarioController.selected.comentarioId}" title="#{bundle.EditComentarioTitle_comentarioId}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_comentarioId}"/>
+                    <h:outputLabel value="#{bundle.EditComentarioLabel_texto}" for="texto" />
+                    <h:inputText id="texto" value="#{comentarioController.selected.texto}" title="#{bundle.EditComentarioTitle_texto}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_texto}"/>
+                    <h:outputLabel value="#{bundle.EditComentarioLabel_fecha}" for="fecha" />
+                    <h:inputText id="fecha" value="#{comentarioController.selected.fecha}" title="#{bundle.EditComentarioTitle_fecha}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditComentarioLabel_usuarioId}" for="usuarioId" />
+                    <h:selectOneMenu id="usuarioId" value="#{comentarioController.selected.usuarioId}" title="#{bundle.EditComentarioTitle_usuarioId}" >
+                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditComentarioLabel_postId}" for="postId" />
+                    <h:selectOneMenu id="postId" value="#{comentarioController.selected.postId}" title="#{bundle.EditComentarioTitle_postId}" >
+                        <f:selectItems value="#{postController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{comentarioController.update}" value="#{bundle.EditComentarioSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditComentarioViewLink}"/>
+                <br />
+                <h:commandLink action="#{comentarioController.prepareList}" value="#{bundle.EditComentarioShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditComentarioIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

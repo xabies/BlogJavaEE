@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:head>
+        <title>Blog Java EE</title>        
+        <h:outputStylesheet name="css/bootstrap.css"/>
+        <h:outputStylesheet name="css/blog-home.css"/>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+    </h:head>
+    <h:body>
+
+        <!-- Barra de Navegacion -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="faces/Posts.xhtml">Blog Java EE</a>
+                </div>
+
+                <!-- Links de Navegacion -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#services">Servicios</a></li>
+                        <li><a href="#contact">Contacto</a></li>
+                        <li><a href="#about">Sobre nosotros</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
+        <!-- Contenido -->
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-8">
+
+
+                    <!-- Entradas del Blog -->
+                    <ui:repeat value="#{postController.getItemsByCategory(categoriaController.getCategoriaPorNombre(param['category']), param['page'])}" var="item">
+
+                        <!-- Titulo -->
+                        <h1>
+                            <h:link outcome="Post?post=#{item.postId}" value="#{item.titulo}"/>
+                        </h1>
+
+                        <!-- Categoria -->
+                        <p class="lead">En  
+                            <h:link outcome="Categorias?category=#{item.categoriaId.nombrecategoria}" value="#{item.categoriaId.nombrecategoria}"/>
+                        </p>
+                        <hr/>
+
+                        <!-- Fecha -->
+                        <p>
+                            <span class="glyphicon glyphicon-time"></span> Publicado el #{postController.getFechaFormateada(item)}</p>
+                        <hr/>
+
+                        <!-- Imagen -->
+                        <img src="#{item.imagen}" class="img-responsive"/>
+                        <hr/>
+
+                        <!-- Contenido -->
+                        <p>
+                            #{item.contenido}
+                        </p>
+                        <br/>
+
+                        <!-- Leer mas -->
+                        <h:link class="btn btn-primary" outcome="Post?post=#{item.postId}" >
+                            Leer más <span class="glyphicon glyphicon-chevron-right"></span>   
+                        </h:link>
+
+                        <hr/>
+
+                    </ui:repeat>
+
+
+
+                    <!-- Paginador -->
+                    <ul class="pager">
+                        <li class="next">
+                            <h:link outcome="Categorias" value="Entradas Antiguas" rendered="#{param['page']+1-1 lt postController.getNumMaxPagesByCategory(categoriaController.getCategoriaPorNombre(param['category']))}">
+                                <f:param name="page" value="#{param['page']+1}" />
+                                <f:param name="category" value="#{param['category']}" />
+                            </h:link>
+                        </li>
+                        <li class="previous">
+                            <h:link outcome="Categorias" value="Entradas Recientes" rendered="#{param['page']>0}">
+                                <f:param name="page" value="#{param['page']-1}" />
+                                <f:param name="category" value="#{param['category']}" />
+                            </h:link>
+                        </li>
+                    </ul>
+
+
+
+
+
+                    <br/>
+
+
+                </div>
+
+
+                <!-- Menu Derecha -->
+                <div class="col-lg-4">
+
+                    <!-- Buscador -->
+                    <div class="well">
+                        <h4>Buscar</h4>
+                        <div class="input-group">
+                            <input type="text" class="form-control"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Categorias -->
+                    <div class="well">
+                        <h4>Categorías</h4>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <ul class="list-unstyled">
+
+                                    <!-- Enlaces Categorias -->
+                                    <ui:repeat value="#{categoriaController.items}" var="categoria">
+                                        <li>
+                                            <h:link outcome="Categorias?category=#{categoria.nombrecategoria}" value="#{categoria.nombrecategoria}"/>
+
+                                        </li>
+                                    </ui:repeat>
+
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <hr/>
+
+            <!-- Pie -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright &copy; Blog Java EE 2014</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- /.Contenido -->
+
+        <!-- JavaScript -->
+        <script src="js/jquery-1.10.2.js"></script>
+        <script src="js/bootstrap.js"></script>
+
+
+    </h:body>
+</html>
+
